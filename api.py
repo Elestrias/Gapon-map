@@ -41,18 +41,18 @@ class MapParams(object):
 
     # Обновление параметров карты по нажатой клавише.
     def update(self, event, mp):
-        if event.key == pygame.K_PAGEDOWN:
+        if event.key == pygame.K_PAGEDOWN and mp.zoom != 0:
             mp.zoom -= 1
-        if event.key == pygame.K_PAGEUP:
+        if event.key == pygame.K_PAGEUP and mp.zoom != 18:
             mp.zoom += 1
-        if event.key == 49:
-            mp.type = 'map'
-        if event.key == 50:
-            mp.type = 'sat'
-        if event.key == 51:
-            mp.type = 'sat,skl'
+        if event.type == pygame.KEYUP:
+            if event.key == 49:
+                mp.type = 'map'
+            elif event.key == 50:
+                mp.type = 'sat'
+            elif event.key == 51:
+                mp.type = 'sat,skl'
         elif event.type == pygame.KEYDOWN:
-            print(event.__dict__['key'])
             if event.__dict__['key'] == 276:
                 mp.lat -= 0.001
             if event.__dict__['key'] == 273:
@@ -61,7 +61,14 @@ class MapParams(object):
                 mp.lon -= 0.001
             if event.__dict__['key'] == 275:
                 mp.lat += 0.001
-
+            if mp.lat == -180:
+                mp.lat = 179.999
+            elif mp.lat == 180:
+                mp.lat = -179.999
+            if mp.lon == -180:
+                mp.lon = 179.999
+            elif mp.lon == 180:
+                mp.lon = -179.999
 
     # Преобразование экранных координат в географические.
     def screen_to_geo(self, pos):
