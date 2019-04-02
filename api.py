@@ -10,8 +10,8 @@ from common.geocoder import geocode as reverse_geocode
 from common.business import find_business
 
 # Подобранные констатны для поведения карты.
-LAT_STEP = 0.008  # Шаги при движении карты по широте и долготе
-LON_STEP = 0.02
+LAT_STEP = 0.001  # Шаги при движении карты по широте и долготе
+LON_STEP = 0.001
 coord_to_geo_x = 0.0000428  # Пропорции пиксельных и географических координат.
 coord_to_geo_y = 0.0000428
 
@@ -54,13 +54,13 @@ class MapParams(object):
                 mp.type = 'sat,skl'
         elif event.type == pygame.KEYDOWN:
             if event.__dict__['key'] == 276:
-                mp.lat -= 0.001
+                mp.lat -= LAT_STEP * 2 ** (15 - self.zoom)
             if event.__dict__['key'] == 273:
-                mp.lon += 0.001
+                mp.lon += LON_STEP * 2 ** (15 - self.zoom)
             if event.__dict__['key'] == 274:
-                mp.lon -= 0.001
+                mp.lon -= LON_STEP * 2 ** (15 - self.zoom)
             if event.__dict__['key'] == 275:
-                mp.lat += 0.001
+                mp.lat += LAT_STEP * 2 ** (15 - self.zoom)
             if mp.lat == -180:
                 mp.lat = 179.999
             elif mp.lat == 180:
