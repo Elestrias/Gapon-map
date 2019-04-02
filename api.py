@@ -41,11 +41,15 @@ class MapParams(object):
 
     # Обновление параметров карты по нажатой клавише.
     def update(self, event, mp):
+        if event.key == pygame.K_PAGEDOWN:
+            mp.zoom -= 1
+        if event.key == pygame.K_PAGEUP:
+            mp.zoom += 1
         if event.key == 49:
             mp.type = 'map'
-        elif event.key == 50:
+        if event.key == 50:
             mp.type = 'sat'
-        elif event.key == 51:
+        if event.key == 51:
             mp.type = 'sat,skl'
 
     # Преобразование экранных координат в географические.
