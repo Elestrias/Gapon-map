@@ -40,8 +40,13 @@ class MapParams(object):
         return ll(self.lon, self.lat)
 
     # Обновление параметров карты по нажатой клавише.
-    def update(self, event):
-        pass
+    def update(self, event, mp):
+        if event.key == 49:
+            mp.type = 'map'
+        elif event.key == 50:
+            mp.type = 'sat'
+        elif event.key == 51:
+            mp.type = 'sat,skl'
 
     # Преобразование экранных координат в географические.
     def screen_to_geo(self, pos):
@@ -56,13 +61,13 @@ class MapParams(object):
 
 # Создание карты с соответствующими параметрами.
 def load_map(mp):
-    map_file = show_map(mp.lat, mp.lon, mp.type)
+    map_file = show_map(mp.lat, mp.lon, mp.type, mp.zoom)
     return map_file
 
 
-def show_map(lat, lon, map_type="map", add_params=None):
+def show_map(lat, lon, map_type="map", zoom=10,  add_params=None):
     if lon and lat:
-        map_request = "http://static-maps.yandex.ru/1.x/?ll={lat},{lon}&l={map_type}".format(**locals())
+        map_request = "http://static-maps.yandex.ru/1.x/?ll={lat},{lon}&z={zoom}&l={map_type}".format(**locals())
     else:
         map_request = "http://static-maps.yandex.ru/1.x/?l={map_type}".format(**locals())
 
@@ -100,7 +105,7 @@ def main():
         if event.type == pygame.QUIT:  # Выход из программы
             break
         elif event.type == pygame.KEYUP:  # Обрабатываем различные нажатые клавиши.
-            mp.update(event)
+            mp.update(event, mp)
         # другие eventы
 
         # Загружаем карту, используя текущие параметры.
