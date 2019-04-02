@@ -41,6 +41,13 @@ class MapParams(object):
 
     # Обновление параметров карты по нажатой клавише.
     def update(self, event, mp):
+        try:
+            if event.key == pygame.K_PAGEDOWN:
+                mp.zoom -= 1
+            if event.key == pygame.K_PAGEUP:
+                mp.zoom += 1
+        except Exception:
+            pass
         if event.type == pygame.KEYUP:
             if event.key == 49:
                 mp.type = 'map'
@@ -49,7 +56,6 @@ class MapParams(object):
             elif event.key == 51:
                 mp.type = 'sat,skl'
         elif event.type == pygame.KEYDOWN:
-            print(event.__dict__['key'])
             if event.__dict__['key'] == 276:
                 mp.lat -= 0.001
             if event.__dict__['key'] == 273:
